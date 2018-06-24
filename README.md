@@ -33,9 +33,9 @@ For more details see [GitHub Flavored Markdown](https://guides.github.com/featur
 
 Within [Julia](http://http://julialang.org), use the `clone` command of the package manager to download and install the POETs repository:
 
-`
+```
 Pkg.clone("https://github.com/ZZP12/SEML.git")
-`
+```
 To use POETs in your project (following installation) simply issue the command:
 
 ```
@@ -44,7 +44,7 @@ using SEML
 To delete the JuPOETs package use the command:
 
 ```
-Pkg.rm("POETs")
+Pkg.rm("SEML")
 ```
 
 
