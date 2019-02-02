@@ -25,7 +25,7 @@ To run the test examples, another three packages are required:
 Within [Julia](http://http://julialang.org), use the `clone` command of the package manager to download and install the POETs repository:
 
 ```
-Pkg.clone("https://github.com/ZZP12/SEML.git")
+Pkg.clone("git://github.com/ZZP12/SEML.git")
 ```
 To use POETs in your project (following installation) simply issue the command:
 
