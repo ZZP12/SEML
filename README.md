@@ -7,6 +7,7 @@ See our [Github webpage](https://zzp12.github.io/SEML/)
 In order to use SEML, the user needs to install [Julia](https://julialang.org/downloads/platform.html) first. This version is compatible with [Julia v1.1.0](https://julialang.org/downloads/index.html).
 The following Julia package is required: 
 * [ArgParse](https://github.com/carlobaldassi/ArgParse.jl)
+
 It can be installed by running in Julia: 
 
 ```
@@ -14,7 +15,9 @@ using Pkg
 Pkg.add("SEML")
 ```
 To run the test examples, another three packages are required: 
-
+* [GLPK](https://github.com/JuliaOpt/GLPK.jl)
+* [ODE](https://github.com/JuliaDiffEq/ODE.jl)
+* [PyPlot](https://github.com/JuliaPy/PyPlot.jl) 
 
 
 ## Installation 
