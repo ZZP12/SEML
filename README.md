@@ -1,11 +1,11 @@
-# Semi-English Modeling Language (SEML) Compiler
-
-## Introduction
+## Introduction to SEML
+SEML: A Simplified English Modeling Language for Constructing Biological Models in Julia
 SEML compiler is a code generation translator that transforms English-like descriptions of biological network into modeling written in runnable programming languages, such as the [Julia](http://julialang.org), [Python](https://www.python.org) and [Matlab](https://www.mathworks.com/products/matlab.html).
-See our [Github webpage](https://zzp12.github.io/SEML/) 
+See our [Github webpage](https://github.com/ZZP12/SEML/) 
 
+## Requirement 
 
-### Installation 
+## Installation 
 
 Within [Julia](http://http://julialang.org), use the `clone` command of the package manager to download and install the POETs repository:
 
@@ -24,7 +24,7 @@ Pkg.rm("SEML")
 ```
 
 
-### Usage 
+## Usage 
 To generate a model, issue the command ``make_model.jl`` from the command line (outside of the REPL):
 
 	$ julia make_model.jl -m <path to the input file> [-o <path to output directory> -s <host type> -l <target programming language> -r <modeling framework>]
@@ -39,31 +39,7 @@ Argument | Required | Default | Description
 -l | No | julia | programming language (julia \| python \| python2 \| python3 \| matlab)
 -r | No | Kinetics| FBA \| FVA \| Kinetics
 
-### Support or Contact
+## Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
-
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Having trouble at installation or function? Feel free to contact the authors:
+[author](https://github.com/varnerlab).
