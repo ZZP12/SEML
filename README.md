@@ -64,7 +64,7 @@ file | description
 --- | ---
 DataDictionary.jl | contains all data of the model, including flux bounds, species concentration bounds, and objective coefficients, etc.   
 FluxDriver.jl  |  interface with GLPK solver to run FBA 
-FVA.jl  |  implementation of fastFVA from \cite{gudmundsson2010computationally} 
+FVA.jl  |  implementation of fastFVA from [gudmundsson2010computationally](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-489) 
 InputFile | SEML description of the model 
 include.jl | contains all the include statements for the project.  
 Solve.jl | interface to run the simulation 
