@@ -4,7 +4,7 @@ SEML compiler is a code generator that transforms simplified English description
 See our [Github webpage](https://zzp12.github.io/SEML.jl/) 
 
 ## Requirement 
-In order to use SEML, the user needs to install [Julia](https://julialang.org/downloads/platform.html) first. This version is compatible with [Julia v1.1.0](https://julialang.org/downloads/index.html).
+In order to use SEML, the user needs to [install Julia](https://julialang.org/downloads/platform.html) first. This version is compatible with [Julia v1.1.0](https://julialang.org/downloads/index.html).
 The following Julia package is required: 
 * [ArgParse](https://github.com/carlobaldassi/ArgParse.jl)
 
