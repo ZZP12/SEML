@@ -1,7 +1,7 @@
 ## Introduction to SEML
 SEML: A Simplified English Modeling Language for Constructing Biological Models in Julia
 SEML compiler is a code generator that transforms simplified English description of biological network into modeling written in a runnable programming language, such as the [Julia](http://julialang.org), [Python](https://www.python.org) and [Matlab](https://www.mathworks.com/products/matlab.html).
-See our [Github webpage](https://zzp12.github.io/SEML/) 
+See our [Github webpage](https://zzp12.github.io/SEML.jl/) 
 
 ## Requirement 
 In order to use SEML, the user needs to install [Julia](https://julialang.org/downloads/platform.html) first. This version is compatible with [Julia v1.1.0](https://julialang.org/downloads/index.html).
@@ -21,6 +21,7 @@ To run the test examples, another three packages are required:
 
 
 ## Installation 
+<!---
 
 Within [Julia](http://http://julialang.org), use the `clone` command of the package manager to download and install the POETs repository:
 
@@ -37,6 +38,7 @@ To delete the JuPOETs package use the command:
 ```
 Pkg.rm("SEML")
 ```
+--->
 
 
 ## Usage 
