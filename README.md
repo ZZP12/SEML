@@ -58,6 +58,7 @@ Argument | Required | Default | Description
 
 ## Output Files 
 ### in Julia 
+FBA/FVA model files: 
 file | description 
 --- | ---
 DataDictionary.jl | contains all data of the model, including flux bounds, species concentration bounds, and objective coefficients, etc.   
@@ -68,7 +69,18 @@ include.jl | contains all the include statements for the project.
 Solve.jl | interface to run the simulation 
 stoichiometry.dat  | Stoichiometric matrix of the model  
 Utility.jl  |  provide some auxiliary functions  
-    
+
+Kinetic model files: 
+file | description  
+--- | ---
+Balances.jl | encodes mass balance of the model 
+DataDictionary.jl | contains all data of the model, including initial condition, kinetic constants and Monod affinity constants, etc.   
+InputFile | SEML description of the model 
+include.jl | contains all the include statements for the project.  
+Kinetics.jl | calculates kinetic rates 
+SolveBalances.jl | interface to run the simulation  
+stoichiometry.dat  | Stoichiometric matrix of the model   
+
 ### in Python 
 ### in Matlab
 
