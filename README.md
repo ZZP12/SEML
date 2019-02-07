@@ -59,6 +59,7 @@ Argument | Required | Default | Description
 ## Output Files 
 ### in Julia 
 FBA/FVA model files: 
+
 file | description 
 --- | ---
 DataDictionary.jl | contains all data of the model, including flux bounds, species concentration bounds, and objective coefficients, etc.   
@@ -71,6 +72,7 @@ stoichiometry.dat  | Stoichiometric matrix of the model
 Utility.jl  |  provide some auxiliary functions  
 
 Kinetic model files: 
+
 file | description  
 --- | ---
 Balances.jl | encodes mass balance of the model 
