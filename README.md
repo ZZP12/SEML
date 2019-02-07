@@ -58,6 +58,17 @@ Argument | Required | Default | Description
 
 ## Output Files 
 ### in Julia 
+file | description 
+--- | ---
+DataDictionary.jl | contains all data of the model, including flux bounds, species concentration bounds, and objective coefficients, etc.   
+FluxDriver.jl  |  interface with GLPK solver to run FBA 
+FVA.jl  |  implementation of fastFVA from \cite{gudmundsson2010computationally} 
+InputFile | SEML description of the model 
+include.jl | contains all the include statements for the project.  
+Solve.jl | interface to run the simulation 
+stoichiometry.dat  | Stoichiometric matrix of the model  
+Utility.jl  |  provide some auxiliary functions  
+    
 ### in Python 
 ### in Matlab
 
