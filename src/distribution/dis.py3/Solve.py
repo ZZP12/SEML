@@ -1,6 +1,6 @@
 from FluxDriver import FluxDriver
 from DataDictionary import maximize_product_dictionary
-from jvFVA import calculate_flux_variabilty
+from FVA import calculate_flux_variabilty
 
 # load the data dictionary -
 data_dictionary = maximize_product_dictionary(0,10,1)

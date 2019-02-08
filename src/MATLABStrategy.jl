@@ -8,7 +8,7 @@ I:
 O:
 BA
 =#
-function include_constants_from_literature(src_file_name, pad_string)
+function m_include_constants_from_literature(src_file_name, pad_string)
   # create src_buffer -
   src_buffer = ""
   # path to distrubtion -
@@ -28,7 +28,7 @@ O: return monod affinity constant symbol, mRNA species array,
   protein species array, W_string_array, disassociation_const_string_array.
 BA
 =#
-function build_kinetics_buffer(all_species_dict::Dict{String, Int},
+function m_build_kinetics_buffer(all_species_dict::Dict{String, Int},
   all_rnx_list::Array, all_txtl_dict::Dict, sys2user::Dict)
   kinetics = "function [rnx_rate_vector, TX_rate_vector, TL_rate_vector] = Kinetics(X, data_dictionary)"
             #  "\n\n\t% load all species dictionary" *
@@ -83,7 +83,7 @@ function build_kinetics_buffer(all_species_dict::Dict{String, Int},
              "\n\tTX_rate_vector = containers.Map();  % transcription rate" *
              "\n\tTL_rate_vector = containers.Map();  % translation rate"
   for (key, txtl) in all_txtl_dict # go thru every txtl
-    tmp_protein_string = replace(key, sys2user["MRNA"], sys2user["PROTEIN"], 1)
+    tmp_protein_string = replace(key, sys2user["MRNA"] => sys2user["PROTEIN"], count=1)
     kinetics *= "\n\t% $key and $tmp_protein_string"
     up_factors_array = Array{String,1}()  # collection of upregulation factors name: targetedmRNA_factor(s)
     if !isempty(txtl.activationProtein)  # upregulation
@@ -159,7 +159,7 @@ function build_kinetics_buffer(all_species_dict::Dict{String, Int},
   return (kinetics, MonodAffinityConstant_String_Array, W_string_array, disassociation_const_string_array)
 end
 
-function build_data_dictionary_buffer(host_type::Symbol, all_species_array::Array,
+function m_build_data_dictionary_buffer(host_type::AbstractString, all_species_array::Array,
   all_species2index_dict::Dict,
   rnx_species_array::Array, all_rnx_list::Array, all_txtl_dict::Dict,
   Monod_affinity_constant_array::Array, W_string_array::Array,
@@ -257,11 +257,11 @@ function build_data_dictionary_buffer(host_type::Symbol, all_species_array::Arra
   buffer *= "\n"
   path_head = dirname(Base.source_path())
   if host_type == :bacteria
-    buffer *= replace(replace(include_constants_from_literature(joinpath(path_head,
-        "txtl_constants_ecoli.jl"),"\n\t"), "#", "%"), r"(  | \t|\t\t)% ", "  ; % ")
+    buffer *= replace(replace(m_include_constants_from_literature(joinpath(path_head,
+        "txtl_constants_ecoli.jl"),"\n\t"), "#" => "%"), r"(  | \t|\t\t)% " => "  ; % ")
   else
-    buffer *= replace(include_constants_from_literature(joinpath(path_head,
-        "txtl_constants_hl60.jl"),"\n"), "#", "%")
+    buffer *= replace(m_include_constants_from_literature(joinpath(path_head,
+        "txtl_constants_hl60.jl"),"\n"), "#" => "%")
   end
 
   #---------------------------------
@@ -302,7 +302,7 @@ function build_data_dictionary_buffer(host_type::Symbol, all_species_array::Arra
   return buffer
 end
 
-function build_simulation_buffer(NoExtracellularSpecies::Int64)
+function m_build_simulation_buffer(NoExtracellularSpecies::Int64)
   # buffer = build_copyright_header_buffer()
   buffer = "\n% set up ODE, get the derivatives
 function dydt = Balances(t,y,dataDictionary)
@@ -354,7 +354,7 @@ end"
 end
 
 
-function build_solveODEBalances_buffer(all_species_array::Array,
+function m_build_solveODEBalances_buffer(all_species_array::Array,
   all_species_dict::Dict{String, Int}, mRNA_species::Array, protein_species::Array)
 
   buffer = "function [t, y] = SolveBalances(TStart, TStop, TStep, dataDictionary)" *
@@ -380,7 +380,7 @@ end
 
 
 # FBA data dictionary generation
-function generate_FBA_data_dictionary(all_rnx_list::Array,
+function m_generate_FBA_data_dictionary(all_rnx_list::Array,
   rnx_species_array::Array, extra_species_num::Int)
   secrete_id = Set{Int64}()  # For initialize the coefficient array
   # data dictionary

@@ -8,15 +8,9 @@ data_dictionary = maximize_product_dictionary(0,10,1)
 (calculated_flux_array, dual_value_array) = calculate_flux_variabilty(data_dictionary)
 
 # FBA
-println(objective_value)
+println("objective: $objective_value")
 println("flux array: ", flux_array)
 println("uptake array: ", uptake_array)
-
-# Print on the fluxes that are active
-report_string = show_flux_profile_markdown(flux_array,0.0001,data_dictionary)
-write("report.md", report_string)
-println("Finished writing report")
-
 
 # FVA
 println("FVA results: ")

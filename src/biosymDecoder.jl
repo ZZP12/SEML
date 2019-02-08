@@ -20,10 +20,13 @@ function extractBioSymGroups(tokenTagPairs::Array, keyVerbs::Set)
         push!(tmpBioSymGroup, tokenTagPairs[i][1])
       end
       push!(BioSymGroupsArray, tmpBioSymGroup)
+      # i += 1  # go for next one
     elseif in(tokenTagPairs[i][2], keyVerbs)
       typeMarker = tokenTagPairs[i][2]
+      # i += 1  # go for next one
     elseif tokenTagPairs[i][2] == "reversible"
       push!(parameterSetting, "reversible")
+      # i += 1  # go for next one
     elseif tokenTagPairs[i][2] == "irreversible"
       push!(parameterSetting, "irreversible")
     end
@@ -78,6 +81,7 @@ O: biosymbol groups are replaced with corresponding array of biosymbol array of
 BA
 =#
 function decodingBioSymGroups(VerbBioSymArray::Array, error::Dict)
+  # println(VerbBioSymArray)
   isID = Set{Int64}()
   for (id, vbsa) in enumerate(VerbBioSymArray)
     lineNum = vbsa[1][2]
@@ -95,6 +99,7 @@ function decodingBioSymGroups(VerbBioSymArray::Array, error::Dict)
       end
     end
   end
+  # delete this from array if has errors?
   deleteat!(VerbBioSymArray, isID)
 end
 
@@ -162,6 +167,7 @@ function decodingABioSymGroupByLogicalRules(tokens::Array)
       if length(outsiderGroup) == 0  # nothing outside ()
         if length(BioSymGroup) == 1 # can only have 1 group
           finalBioSymGroups = reshapeBioSymbolGroups([], BioSymGroup[1][2:end], BioSymGroup[1][1])
+          # println("Simple Bio-sym group")
         else
           println("ERROR: unspecified/unclear relationship")
           push!(err_mes, "ERROR: unspecified/unclear relationship")
@@ -188,6 +194,8 @@ function decodingABioSymGroupByLogicalRules(tokens::Array)
         println(finalBioSymGroups)
       end
     end
+    # println("\nfinalBioSymGroups: ")
+    # println(s for s in finalBioSymGroups)
   end
 
   return finalBioSymGroups, err_mes
@@ -199,6 +207,7 @@ F: take in a sequence of tokens, seperate bio tokens and logical tokens, return
 IOBA
 =#
 function decodingASequenceOfTokensWithOneLogicalRelation(tokens::Array, andSet::Set, orSet::Set)
+  # println("inside decodingASequenceOfTokensWithOneLogicalRelation")
   biosymGroup = []
   logicalRelation = [""]
   errorMessage = ""
@@ -227,6 +236,8 @@ function decodingASequenceOfTokensWithOneLogicalRelation(tokens::Array, andSet::
       push!(biosymGroup, tokens[i])
     end
   end
+  # println(logicalRelation[1])
+  # println("jump out decodingASequenceOfTokensWithOneLogicalRelation")
   return logicalRelation[1], biosymGroup, errorMessage
 end
 
@@ -245,16 +256,21 @@ function reshapeBioSymbolGroups(inParenGroups, outParenGroup, logicOutParen)
       println("Logic AND simple bio-symbol group")
     else  # complicated case: array of arrays of strings
       finalGroups = [outParenGroup]
+      # println("finalGroups: $finalGroups")
       for i = 1:length(inParenGroups)
         tmp2 = []
         for biosym in inParenGroups[i]  # append each token to the previous finalGroups
           tmp1 = deepcopy(finalGroups)
+          # println("tmp1: $tmp1")
           for j = 1:length(tmp1)
             push!(tmp1[j], biosym)
           end
+          # println("tmp1: $tmp1")
           append!(tmp2, tmp1)
         end
+        # println("tmp2: $tmp2")
         finalGroups = deepcopy(tmp2)  # update finalGroups after processing each outParenGroup element
+        # println("finalGroups: $finalGroups")
       end
       println("Logic AND complicated bio-symbol group")
     end
@@ -263,6 +279,7 @@ function reshapeBioSymbolGroups(inParenGroups, outParenGroup, logicOutParen)
       push!(finalGroups, [biosym])
     end
     if length(inParenGroups) == 0 # simple case
+      # finalGroups = outParenGroup
       println("Logic OR simple bio-symbol group")
     else
       for biosymgroup in inParenGroups
@@ -294,12 +311,14 @@ function printArrayOfTripleToken(tokenPlusMultiLayerArray::Array, targetDataType
       for symArray1 in tuple[2]  # 1st layer
         if length(symArray1) == 0
           println("THIS sentence is incorrect")
-        else
+        else  # FIXME: handle default return data structure '[]'
           if typeof(symArray1[1]) <: targetDataType || length(symArray1[1]) == 0
+            # println("print 1: simple case --> Array of strings")
             println(symArray1)
           else
             for symArray2 in symArray1  # 2nd layer
               if typeof(symArray2[1]) <: targetDataType
+                # println("print 2: complicated case --> Array of arrays")
                 println(symArray2)
               else
                 for symArray3 in symArray2  # 3rd layer
@@ -342,6 +361,7 @@ O: conversion dictionary, also modify the input array;
 BA
 =#
 function setUpSymbolConvertionDict(verbSymArray::Array, error::Dict)
+  # verbSymArray = Array of pairs of ((senType, line#), BioSym, paraSet)
   conversionTable = Dict{AbstractString, AbstractString}()
   isID = Array{Int64, 1}()
   for (id, vs) in enumerate(verbSymArray)
@@ -369,7 +389,7 @@ function setUpSymbolConvertionDict(verbSymArray::Array, error::Dict)
   return conversionTable
 end
 
-type generalBioSym
+mutable struct generalBioSym
   oriBioName::AbstractString
   bioType::AbstractString
   coeff::Float64  # Float64 has default value 0.0?
@@ -390,7 +410,7 @@ function BioSym2GeneralBioSym(token::AbstractString, convDict::Dict, err::Array)
     bioSym.oriBioName = "[]"
     bioSym.bioType = "[]"
     bioSym.coeff = 0.0
-  elseif (!contains(token, "*") && !contains(token, "_"))  # site
+  elseif (!occursin("*", token) && !occursin("_", token))  # site
     bioSym.oriBioName = token
     bioSym.bioType = "SITE"
     bioSym.coeff = 1.0
@@ -469,6 +489,7 @@ BA
 =#
 function replaceEachBioSymWithGeneralBioSym(biosymArray::Array,
                      conversionDict::Dict, error_report::Dict)
+  # biosymArray = Array of pairs of ((senType, line#), BioSym, paraSet)
   newVerbSymArray = []
   for bs in biosymArray
     err_mes = []
@@ -496,3 +517,35 @@ function replaceEachBioSymWithGeneralBioSym(biosymArray::Array,
   end
   return newVerbSymArray
 end
+
+
+
+# # NOTE test
+# include("preprocessor3.jl")
+# println("\n---------loading sentences------------")
+# inputSentencesArray = getRidOfNewlineHashcommentBlankline("../test/fbacase.txt")
+# tokenizedInputSentencesArray = sentenceTokenization2(inputSentencesArray)
+# println("\n------------normalizing and tagging------------")
+# reservedWordsPath = "reservedWords.jl"
+# taggedSentencesArray = tokenClassification2(tokenizedInputSentencesArray, reservedWordsPath)
+# # reshape for output observation
+# printTagSen = [["$(y[1])/$(y[2])" for y in x[1]] for x in taggedSentencesArray]
+# println(typeof(printTagSen))
+# foreach(println, [join(ts, "  ") for ts in printTagSen])
+#
+# println("\n------------information extraction------------")
+# include(reservedWordsPath)
+# error_report = Dict{Int64, Array}()
+# BioSymVerbInfo = extractBioSymVerbInformation(taggedSentencesArray, reservedWords["SentenceType"], error_report)
+# # println("print by foreach:")
+# foreach(println, BioSymVerbInfo)
+# println("\n------------decoding bio symbols------------")
+# decodingBioSymGroups(BioSymVerbInfo, error_report)
+# println("\n------------decoding bio symbols results------------")
+# printArrayOfTripleToken(BioSymVerbInfo, AbstractString)
+# println("\n---------type conversion dictionary---------------")
+# typeConversionDict = setUpSymbolConvertionDict(BioSymVerbInfo, error_report)
+# foreach(println, typeConversionDict)
+# println("\n------replace each biosymbol string with generalBioSym composite-----------------")
+# newVerbBiosymInfo = replaceEachBioSymWithGeneralBioSym(BioSymVerbInfo, typeConversionDict, error_report)
+# printArrayOfTripleToken(newVerbBiosymInfo, generalBioSym)

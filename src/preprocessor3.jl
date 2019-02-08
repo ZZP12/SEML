@@ -6,14 +6,14 @@ O: array of strings, each element maps to a line in the file;
 B: load the whole file at the same time, may require large memory for large file;
 A: read line-by-line, ingnore blank lines and pure comments, throw away in-line comments;
 =#
-function getRidOfNewlineHashcommentBlankline(inputFilePath::String)
+function getRidOfNewlineHashcommentBlankline(inputFilePath::AbstractString)
   f = open(inputFilePath, "r")
   lines = readlines(f)
   newlines = Array{Any, 1}()  # container for results
   for (id, val) in enumerate(lines)
     val = chomp(val)  # trailing newline
-    hashId = searchindex(val, '#')
-    if hashId != 0  # get rid of comments
+    hashId = findfirst(isequal('#'), val)
+    if something(hashId,-1) != -1  # get rid of comments
       val = val[1:hashId-1]
     end
     if length(split(val)) != 0  # non-empty
@@ -25,7 +25,8 @@ function getRidOfNewlineHashcommentBlankline(inputFilePath::String)
       println(val)
     end
   end
-  # println(typeof(newlines))
+  # println(">"^20)
+  # println(newlines)
   return newlines
 end
 
@@ -54,7 +55,7 @@ A: tokenizing a sentence by processing it char-by-char, punctuation and left/rig
 function sentenceTokenization2(inputSenArray::Array)
   puncSet = Set(['|', '&', ',', '(', ')'])
   tokenizedInputSentencesArray = Array{Any, 1}()
-  for (sen, id) in inputSentencesArray
+  for (sen, id) in inputSenArray
     sen = sen*" "  # add a space to end the sentence
     tokens = Array{String,1}()
     currentToken = ""
@@ -87,7 +88,7 @@ end
 F: get rid of negligible reserved words, tagging or normalizing
 I: array{String, 1}, usually from getRidOfNewlineHashcommentBlankline
 O: Array of Arrays of Tuples --> Tuple(token, tag)
-B: tag all unknown tokens as BioSym
+B: tag all unknown tokens as BioSym, @FIXME how to format for grammar searching?
 A: use Dict[tag] = Set{words}, e.g. createReservedWords1.jl
 =#
 function tokenClassification1(sentencesArray::Array, reservedWords::Dict)
@@ -105,9 +106,9 @@ function tokenClassification1(sentencesArray::Array, reservedWords::Dict)
             break
           end
         end
-        if !breakEndsForLoop  # token of unknown tagging type
+        if !breakEndsForLoop  # token of unknown tagging type FIXME: add a boolean value to indicate status
           # push!(taggedTokens, (token, "UNK"))
-          push!(taggedTokens, (token, "BioSym"))
+          push!(taggedTokens, (token, "BioSym"))  # TODO tag general biological symbols
         end
       end
     end
@@ -119,7 +120,7 @@ end
 F: get rid of negligible reserved words, tagging or normalizing
 I: array{String, 1}, usually from getRidOfNewlineHashcommentBlankline
 O: Array of Arrays of Tuples --> Tuple(token, tag)
-B: tag all unknown tokens as BioSym
+B: tag all unknown tokens as BioSym, @FIXME how to format for grammar searching?
 A: use Dict[word] = tag, e.g. createReservedWords2.jl
 =#
 function tokenClassification2(sentencesArray::Array, reservedWordsPath::AbstractString)
@@ -141,3 +142,22 @@ function tokenClassification2(sentencesArray::Array, reservedWordsPath::Abstract
   end
   return taggedSentencesArray
 end
+
+
+# # NOTE test
+# println("\n---------loading sentences------------")
+# inputSentencesArray = getRidOfNewlineHashcommentBlankline("../test/fbacase.txt")
+# tokenizedInputSentencesArray = sentenceTokenization2(inputSentencesArray)
+#
+# println("\n------------normalizing and tagging------------")
+# # include("reservedWords.jl")
+# taggedSentencesArray = tokenClassification2(tokenizedInputSentencesArray,
+#                                             "reservedWords.jl")
+# print(taggedSentencesArray)
+# println("-----------")
+# # reshape for output observation
+# printTagSen = [["$(y[1])/$(y[2])" for y in x[1]] for x in taggedSentencesArray]
+# println(typeof(printTagSen))
+# for ts in printTagSen
+#   println(join(ts, "  "))
+# end

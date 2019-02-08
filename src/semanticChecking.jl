@@ -89,7 +89,7 @@ function checkDephosphorylateType(senInfo::Tuple, u2sDict::Dict, s2uDict::Dict, 
     end
   end
   if DS10SemanticChecking(senInfo[2][2], u2sDict, legalTypeSet2) # correct reactant
-    if isdefined(senInfo[2], 3)  # have site
+    if isassigned(senInfo[2], 3)  # have site
       if DS10SemanticChecking(senInfo[2][3], u2sDict, legalTypeSet3)  # correct SITE
         product = createProductsList(senInfo[2][2], "-"*senInfo[2][3][1].oriBioName, "", err)
       else  # incorrect site
@@ -147,7 +147,7 @@ function checkPhosphorylateType(senInfo::Tuple, u2sDict::Dict, s2uDict::Dict, er
     end
   end
   if DS10SemanticChecking(senInfo[2][2], u2sDict, legalTypeSet2) # correct reactant
-    if isdefined(senInfo[2], 3)  # have site
+    if isassigned(senInfo[2], 3)  # have site
       if DS10SemanticChecking(senInfo[2][3], u2sDict, legalTypeSet3)  # correct SITE
         product = createProductsList(senInfo[2][2], "-"*senInfo[2][3][1].oriBioName, err)
       else  # incorrect site
@@ -203,7 +203,7 @@ function checkCatalyzeType(senInfo::Tuple, u2sDict::Dict, err::Array)
       rever =  true
     end
   end
-  if !isdefined(senInfo[2],2) || !isdefined(senInfo[2], 3)
+  if !isassigned(senInfo[2],2) || !isassigned(senInfo[2], 3)
     push!(err, "no enough inputs for \'catalyze\' type")
   else
     if (DS1SemanticChecking(senInfo[2][2], u2sDict, legalTypeSet2) &&
@@ -338,7 +338,7 @@ function checkUnbindType(senInfo::Tuple, u2sDict::Dict, err::Array)
     end
   end
   if DS10SemanticChecking(senInfo[2][1], u2sDict, legalTypeSet1)  # reactants correct
-    if isdefined(senInfo[2], 2)  # have products
+    if isassigned(senInfo[2], 2)  # have products
       if DS1SemanticChecking(senInfo[2][2], u2sDict, legalTypeSet2)  # correct products
         if rever  # reversible reaction
           returnArr = [(senInfo[1], [senInfo[2][1], senInfo[2][2]]), (senInfo[1], [senInfo[2][2], senInfo[2][1]])]
@@ -388,7 +388,7 @@ function checkBindType(senInfo::Tuple, u2sDict::Dict, err::Array)
     end
   end
   if semantic1  # reactants correct
-    if isdefined(senInfo[2], 2)  # have products
+    if isassigned(senInfo[2], 2)  # have products
       if DS10SemanticChecking(senInfo[2][2], u2sDict, legalTypeSet2)  # correct product
         if rever  # reversible reaction
           returnArr = [(senInfo[1], [senInfo[2][1], senInfo[2][2]]), (senInfo[1], [senInfo[2][2], senInfo[2][1]])]
@@ -432,7 +432,7 @@ function checkSecreteType(senInfo::Tuple, u2sDict::Dict, s2uDict::Dict, err::Arr
   # semantics = DS1SemanticChecking(senInfo[2][1], u2sDict, legalTypeSet1)
   if DS1SemanticChecking(senInfo[2][1], u2sDict, legalTypeSet1)  # reactants correct
     products = createProductsList(senInfo[2][1], s2uDict["_c"], s2uDict["_exc"], err)
-    if isdefined(senInfo[2], 2)  # have transporters
+    if isassigned(senInfo[2], 2)  # have transporters
       if DS10SemanticChecking(senInfo[2][1], u2sDict, legalTypeSet1)  # unambiguous
         # semantics2 = DS1SemanticChecking(senInfo[2][2], u2sDict, legalTypeSet2)
         if DS1SemanticChecking(senInfo[2][2], u2sDict, legalTypeSet2)  # transporters correct
@@ -497,7 +497,7 @@ function checkUptakeType(senInfo::Tuple, u2sDict::Dict, s2uDict::Dict, err::Arra
   semantics = DS1SemanticChecking(senInfo[2][1], u2sDict, legalTypeSet1)
   if semantics  # reactants correct
     products = createProductsList(senInfo[2][1], s2uDict["_exc"], s2uDict["_c"], err)
-    if isdefined(senInfo[2], 2)  # have transporters
+    if isassigned(senInfo[2], 2)  # have transporters
       if DS10SemanticChecking(senInfo[2][1], u2sDict, legalTypeSet1)  # unambiguous
         semantics2 = DS1SemanticChecking(senInfo[2][2], u2sDict, legalTypeSet2)
         if semantics2  # transporters correct
@@ -635,11 +635,11 @@ function createProductsList(oriList::Array, oldTag, newTag, err)
   newList = []
   for arr in oriList
     new_arr = deepcopy(arr)
-    if !contains(new_arr.oriBioName, oldTag)
+    if !occursin(oldTag, new_arr.oriBioName)
       println("ERROR: no \'$oldTag\' found in \'$(new_arr.oriBioName)\'")
       push!(err, "ERROR: no \'$oldTag\' found in \'$(new_arr.oriBioName)\'")
     end
-    new_arr.oriBioName = replace(new_arr.oriBioName, oldTag, newTag)
+    new_arr.oriBioName = replace(new_arr.oriBioName, oldTag => newTag)
     push!(newList, new_arr)
   end
   return newList
