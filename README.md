@@ -43,7 +43,6 @@ To use POETs in your project simply issue the command:
 ```
 using SEML
 make_model(arg1[, OutPath=arg2, Host=arg3, Model=arg4, Lang=arg5])
-
 ```
 
 The ``make_model.jl`` command takes four arguments:
