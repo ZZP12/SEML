@@ -20,13 +20,24 @@ using Pkg
 
 
 ## Installation 
-<!---
+
 
 Within [Julia](http://http://julialang.org), use the `clone` command of the package manager to download and install the POETs repository:
 
 ```
 Pkg.clone("https://github.com/ZZP12/SEML.jl.git")
 ```
+
+To delete the JuPOETs package use the command:
+
+```
+]
+(v1.1) pkg> rm SEML
+```
+
+
+
+## Usage 
 To use POETs in your project (following installation) simply issue the command:
 
 ```
@@ -34,21 +45,8 @@ using SEML
 make_model(arg1[, arg2, arg3...])
 
 ```
-To delete the JuPOETs package use the command:
 
-```
-]
-(v1.1) pkg> rm SEML
-```
---->
-
-
-## Usage 
-To generate a model, issue the command ``make_model.jl`` from the command line (outside of the REPL):
-
-	$ julia make_model.jl -m <path to the input file> [-o <path to output directory> -s <host type> -l <target programming language> -r <modeling framework>]
-
-The ``make_model.jl`` command takes four command line arguments:
+The ``make_model.jl`` command takes four arguments:
 
 Argument | Required | Default | Description
 --- | --- | --- | ---
