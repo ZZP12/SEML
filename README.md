@@ -5,19 +5,18 @@ See our [Github webpage](https://zzp12.github.io/SEML.jl/)
 
 ## Requirement 
 In order to use SEML, the user needs to [install Julia](https://julialang.org/downloads/platform.html) first. This version is compatible with [Julia v1.1.0](https://julialang.org/downloads/index.html).
-The following Julia package is required: 
-* [ArgParse](https://github.com/carlobaldassi/ArgParse.jl)
+The following Julia packages are required: 
+* [GLPK](https://github.com/JuliaOpt/GLPK.jl)
+* [ODE](https://github.com/JuliaDiffEq/ODE.jl)
+* [PyPlot](https://github.com/JuliaPy/PyPlot.jl) 
 
 It can be installed by running in Julia: 
 
 ```
 using Pkg
-Pkg.add("SEML")
+]
+(v1.1) pkg> add GLPK ODE PyPlot
 ```
-To run the test examples, another three packages are required: 
-* [GLPK](https://github.com/JuliaOpt/GLPK.jl)
-* [ODE](https://github.com/JuliaDiffEq/ODE.jl)
-* [PyPlot](https://github.com/JuliaPy/PyPlot.jl) 
 
 
 ## Installation 
@@ -26,17 +25,20 @@ To run the test examples, another three packages are required:
 Within [Julia](http://http://julialang.org), use the `clone` command of the package manager to download and install the POETs repository:
 
 ```
-Pkg.clone("git://github.com/ZZP12/SEML.jl")
+Pkg.clone("https://github.com/ZZP12/SEML.jl.git")
 ```
 To use POETs in your project (following installation) simply issue the command:
 
 ```
 using SEML
+make_model(arg1[, arg2, arg3...])
+
 ```
 To delete the JuPOETs package use the command:
 
 ```
-Pkg.rm("SEML")
+]
+(v1.1) pkg> rm SEML
 ```
 --->
 
