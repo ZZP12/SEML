@@ -265,10 +265,10 @@ function jl_build_data_dictionary_buffer(host_type::AbstractString, all_species_
   buffer *= "\n\n"
   if host_type == :bacteria
     buffer *= jl_include_constants_from_literature(
-              joinpath(dirname(Base.source_path()), "txtl_constants_ecoli.jl"),"\n\t")
+              joinpath(Base.@__DIR__, "txtl_constants_ecoli.jl"),"\n\t")
   else
     buffer *= jl_include_constants_from_literature(
-              joinpath(dirname(Base.source_path()), "txtl_constants_hl60.jl"), "\n\t")
+              joinpath(Base.@__DIR__, "txtl_constants_hl60.jl"), "\n\t")
   end
 
   #---------------------------------

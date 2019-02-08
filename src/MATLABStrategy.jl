@@ -255,7 +255,7 @@ function m_build_data_dictionary_buffer(host_type::AbstractString, all_species_a
   #buffer *= "\n\n\tbackground_mRNA_synthesis_rate_vector = 0.01*ones($length_TXTL)"
   # load txtl constants buffer
   buffer *= "\n"
-  path_head = dirname(Base.source_path())
+  path_head = Base.@__DIR__
   if host_type == :bacteria
     buffer *= replace(replace(m_include_constants_from_literature(joinpath(path_head,
         "txtl_constants_ecoli.jl"),"\n\t"), "#" => "%"), r"(  | \t|\t\t)% " => "  ; % ")

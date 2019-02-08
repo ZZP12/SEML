@@ -273,11 +273,11 @@ function py2_build_data_dictionary_buffer(host_type::AbstractString, all_species
   buffer *= "\n\n \n"
   if host_type == :bacteria
     buffer *= replace(replace(py2_include_constants_from_literature(
-      joinpath(dirname(Base.source_path()), "txtl_constants_ecoli.jl"),"\n\t"),
+      joinpath(Base.@__DIR__, "txtl_constants_ecoli.jl"),"\n\t"),
       ")^3" => ")**3"), "log(" => "math.log(")
   else
     buffer *= replace(replace(py2_include_constants_from_literature(
-      joinpath(dirname(Base.source_path()), "txtl_constants_hl60.jl"),"\n\t"),
+      joinpath(Base.@__DIR__, "txtl_constants_hl60.jl"),"\n\t"),
       ")^3" => ")**3"), "log(" => "math.log(")
   end
 
