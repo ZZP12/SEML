@@ -59,7 +59,7 @@ Lang | No | programming language | julia \| python \| python2 \| python3 \| matl
 ### in Julia 
 FBA/FVA model files: 
 
-file | description 
+File | Description 
 :--- | :---
 DataDictionary.jl | contains all data of the model, including flux bounds, species concentration bounds, and objective coefficients, etc.   
 FluxDriver.jl  |  interface with GLPK solver to run FBA 
@@ -72,7 +72,7 @@ Utility.jl  |  provide some auxiliary functions
 
 Kinetic model files: 
 
-file | description  
+File | Description  
 :--- | :---
 Balances.jl | encodes mass balance of the model 
 DataDictionary.jl | contains all data of the model, including initial condition, kinetic constants and Monod affinity constants, etc.   
