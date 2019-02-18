@@ -263,7 +263,7 @@ function jl_build_data_dictionary_buffer(host_type::AbstractString, all_species_
   #buffer *= "\n\n\tbackground_mRNA_synthesis_rate_vector = 0.01*ones($length_TXTL)"
   # load txtl constants buffer
   buffer *= "\n\n"
-  if host_type == :bacteria
+  if host_type == "bacteria"
     buffer *= jl_include_constants_from_literature(
               joinpath(Base.@__DIR__, "txtl_constants_ecoli.jl"),"\n\t")
   else

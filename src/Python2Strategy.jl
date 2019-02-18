@@ -271,7 +271,7 @@ function py2_build_data_dictionary_buffer(host_type::AbstractString, all_species
   #buffer *= "\n\n\tbackground_mRNA_synthesis_rate_vector = 0.01*ones($length_TXTL)"
   # load txtl constants buffer
   buffer *= "\n\n \n"
-  if host_type == :bacteria
+  if host_type == "bacteria"
     buffer *= replace(replace(py2_include_constants_from_literature(
       joinpath(Base.@__DIR__, "txtl_constants_ecoli.jl"),"\n\t"),
       ")^3" => ")**3"), "log(" => "math.log(")
