@@ -25,7 +25,9 @@ using Pkg
 Within [Julia](http://http://julialang.org), use the `clone` command of the package manager to download and install the POETs repository:
 
 ```
-Pkg.clone("https://github.com/ZZP12/SEML.jl.git")
+using Pkg 
+]
+(v1.1) pkg> add https://github.com/ZZP12/SEML.jl.git
 ```
 
 To delete the JuPOETs package use the command:
