@@ -91,12 +91,13 @@ stoichiometry.dat  | Stoichiometric matrix of the model
 ### reproduce directly 
 1. Download the *example* folder 
 2. Open a terminal window, `cd` to the *example* folder
-3a. To run FBA model (Fig. 5(b):  
+3. To run the FBA model (Fig. 5(b):  
   - `cd` to *fauto* folder 
   - run `julia Solve.jl`
-3b. To run kinetic model (Fig. 7): 
+3. To run the kinetic model (Fig. 7): 
   - `cd` to *kiauto* folder 
-  - run `julia Simulation.jl`
+  - run `julia Simulation.jl` 
+  Note: while running the kinetic model, some figure will be generated and pause the program, close the unwanted figure windows to get the final color figures as Fig. 7. 
 
 ### reproduce from scratch 
 
