@@ -19,7 +19,7 @@ using Pkg
 (v1.1) pkg> add https://github.com/ZZP12/SEML.jl.git
 ```
 
-To delete the JuPOETs package use the command:
+To delete the SEML package use the command:
 
 ```
 ]
@@ -29,14 +29,14 @@ To delete the JuPOETs package use the command:
 
 
 ## Usage 
-To use POETs in your project simply issue the command:
+To use SEML in your project simply issue the command:
 
 ```
 using SEML
 make_model(arg1[, OutPath=arg2, Host=arg3, Model=arg4, Lang=arg5])
 ```
 
-The ``make_model.jl`` command takes four arguments:
+The ``make_model()`` command takes five arguments:
 
 Argument | Required | Description | Options | Default
 :--- | :--- | :--- | :--- | :---
@@ -130,7 +130,7 @@ The following Julia packages are required to run the demontration examples in Ju
 * [ODE](https://github.com/JuliaDiffEq/ODE.jl)
 * [PyPlot](https://github.com/JuliaPy/PyPlot.jl) 
 
-It can be installed by running in Julia: 
+They can be installed by running in Julia: 
 
 ```
 using Pkg
