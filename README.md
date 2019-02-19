@@ -87,6 +87,19 @@ stoichiometry.dat  | Stoichiometric matrix of the model
 ### in Python 
 ### in Matlab
 
+## Reproduce Examples 
+### reproduce directly 
+1. Download the *example* folder 
+2. Open a terminal window, `cd` to the *example* folder
+3. To run FBA model (Fig. 5(b):  
+  - `cd` to *fauto* folder 
+  - run `julia Solve.jl`
+4. To run kinetic model (Fig. 7): 
+  - `cd` to *kiauto* folder 
+  - run `julia Simulation.jl`
+
+### reproduce from scratch 
+
 ## Support or Contact
 
 Having trouble at installation or function? Feel free to contact the [authors](https://github.com/varnerlab).
