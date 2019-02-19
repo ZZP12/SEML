@@ -11,7 +11,7 @@ In order to use SEML, the user needs to [install Julia](https://julialang.org/do
 
 
 ## Installation 
-Within [Julia](http://http://julialang.org), use the `clone` command of the package manager to download and install the POETs repository:
+Within [Julia](http://http://julialang.org), use the `add` command of the package manager to download and install the SEML repository:
 
 ```
 using Pkg 
