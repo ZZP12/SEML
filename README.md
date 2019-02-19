@@ -85,6 +85,17 @@ SolveBalances.jl | interface to run the simulation
 stoichiometry.dat  | Stoichiometric matrix of the model   
 
 ### in Python 
+FBA/FVA model files: 
+
+File | Description 
+:--- | :---
+DataDictionary.py | contains all data of the model, including flux bounds, species concentration bounds, and objective coefficients, etc.   
+FluxDriver.py  |  interface with scipy.optimize.linprog to run FBA 
+FVA.jl  |  implementation of fastFVA from [gudmundsson2010computationally](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-489) 
+InputFile | SEML description of the model 
+Solve.jl | interface to run the simulation 
+stoichiometry.dat  | Stoichiometric matrix of the model  
+
 ### in Matlab
 
 ## Reproduce Examples 
