@@ -20,13 +20,10 @@ function extractBioSymGroups(tokenTagPairs::Array, keyVerbs::Set)
         push!(tmpBioSymGroup, tokenTagPairs[i][1])
       end
       push!(BioSymGroupsArray, tmpBioSymGroup)
-      # i += 1  # go for next one
     elseif in(tokenTagPairs[i][2], keyVerbs)
       typeMarker = tokenTagPairs[i][2]
-      # i += 1  # go for next one
     elseif tokenTagPairs[i][2] == "reversible"
       push!(parameterSetting, "reversible")
-      # i += 1  # go for next one
     elseif tokenTagPairs[i][2] == "irreversible"
       push!(parameterSetting, "irreversible")
     end
@@ -104,9 +101,7 @@ function decodingBioSymGroups(VerbBioSymArray::Array, error::Dict)
 end
 
 #= ambiguity problem
-F: just handling simple cases (one-layer of parenthesis),
-   e.g. (A or B) & C & D & (E or F), (A & B) or C or D.
-   --> currently, try to do the right thing, but does not consider all possible cases.
+F:
 I: array of biological tokens (including logcial tokens & bio-tokens)
 O: Array of Strings for simple cases; or array of arrays of strings for cases
    with parenthesis.
@@ -194,8 +189,6 @@ function decodingABioSymGroupByLogicalRules(tokens::Array)
         println(finalBioSymGroups)
       end
     end
-    # println("\nfinalBioSymGroups: ")
-    # println(s for s in finalBioSymGroups)
   end
 
   return finalBioSymGroups, err_mes
@@ -236,7 +229,6 @@ function decodingASequenceOfTokensWithOneLogicalRelation(tokens::Array, andSet::
       push!(biosymGroup, tokens[i])
     end
   end
-  # println(logicalRelation[1])
   # println("jump out decodingASequenceOfTokensWithOneLogicalRelation")
   return logicalRelation[1], biosymGroup, errorMessage
 end

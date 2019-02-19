@@ -35,13 +35,6 @@ function preparing_rnxList_txtlDict(preIRtuples::Array, sys2user::Dict, user2sys
   txtl_protein_set = Set{String}()
   # generating rnx but also remember to add species to set
   for tuple in preIRtuples
-    # # try to set a global tmpRF to save some lines of code
-    # tmpRF = reactionForm()
-    # tmpRF.rnxType = tuple[1][1]
-    # name_r = ""
-    # name_c = ""
-    # name_p = ""
-
     # 1) set reactants, products, and catalysts
     # 2) modifying name_r, name_c, and name_p
     if tuple[1][1] == "react"  # get rid of []
@@ -64,7 +57,7 @@ function preparing_rnxList_txtlDict(preIRtuples::Array, sys2user::Dict, user2sys
       end
       tmpRF.rnxName = name_r *"<"* tmpRF.rnxType *":"* name_c *">"* name_p
       push!(rnxList, tmpRF)
-  elseif (tuple[1][1] == "uptake" || tuple[1][1] == "secrete" || tuple[1][1] == "bind" ||
+    elseif (tuple[1][1] == "uptake" || tuple[1][1] == "secrete" || tuple[1][1] == "bind" ||
       tuple[1][1] == "unbind" || tuple[1][1] == "phosphorylate" ||
       tuple[1][1] == "dephosphorylate" || tuple[1][1] == "catalyze")
       tmpRF = reactionForm()
@@ -85,60 +78,21 @@ function preparing_rnxList_txtlDict(preIRtuples::Array, sys2user::Dict, user2sys
       end
       tmpRF.rnxName = name_r *"<"* tmpRF.rnxType *":"* name_c *">"* name_p
       push!(rnxList, tmpRF)
-    # txtl
-    # elseif tuple[1][1] == "induce"
-    #   targetMRNA = replace(tuple[2][2][1].oriBioName, sys2user["GENE"] => sys2user["MRNA"])
-    #   if haskey(txtlDict, targetMRNA)  # already exist
-    #     push!(txtlDict[targetMRNA].activationProtein, tuple[2][1])
-    #   else  # create new one
-    #     txtlDict[targetMRNA] = txtlForm()
-    #     push!(txtlDict[targetMRNA].activationProtein, tuple[2][1])
-    #   end
-    # elseif tuple[1][1] == "activate"
-    #   targetMRNA = replace(tuple[2][2][1].oriBioName, sys2user["PROTEIN"] => sys2user["MRNA"])
-    #   if haskey(txtlDict, targetMRNA)  # already exist
-    #     push!(txtlDict[targetMRNA].activationProtein, tuple[2][1])
-    #   else  # create new one
-    #     txtlDict[targetMRNA] = txtlForm()
-    #     push!(txtlDict[targetMRNA].activationProtein, tuple[2][1])
-    #   end
-    # elseif tuple[1][1] == "repress"
-    #   targetMRNA = replace(tuple[2][2][1].oriBioName, sys2user["GENE"] => sys2user["MRNA"])
-    #   if haskey(txtlDict, targetMRNA)  # already exist
-    #     push!(txtlDict[targetMRNA].inhibitionProtein, tuple[2][1])
-    #   else  # create new one
-    #     txtlDict[targetMRNA] = txtlForm()
-    #     push!(txtlDict[targetMRNA].inhibitionProtein, tuple[2][1])
-    #   end
-    # elseif tuple[1][1] == "inhibit"
-    #   targetMRNA = replace(tuple[2][2][1].oriBioName, sys2user["PROTEIN"]=> sys2user["MRNA"])
-    #   if haskey(txtlDict, targetMRNA)  # already exist
-    #     push!(txtlDict[targetMRNA].inhibitionProtein, tuple[2][1])
-    #   else  # create new one
-    #     txtlDict[targetMRNA] = txtlForm()
-    #     push!(txtlDict[targetMRNA].inhibitionProtein, tuple[2][1])
-    #   end
-elseif tuple[1][1] == "induce"
+
+    elseif tuple[1][1] == "induce"
       process_txtl_relation(txtlDict, tuple[2], sys2user["GENE"], sys2user["MRNA"], 1, txtlForm)
-  elseif tuple[1][1] == "activate"
+    elseif tuple[1][1] == "activate"
       process_txtl_relation(txtlDict, tuple[2], sys2user["PROTEIN"], sys2user["MRNA"], 1, txtlForm)
-  elseif tuple[1][1] == "repress"
+    elseif tuple[1][1] == "repress"
       process_txtl_relation(txtlDict, tuple[2], sys2user["GENE"], sys2user["MRNA"], 2, txtlForm)
-  elseif tuple[1][1] == "inhibit"
+    elseif tuple[1][1] == "inhibit"
       process_txtl_relation(txtlDict, tuple[2], sys2user["PROTEIN"], sys2user["MRNA"], 2, txtlForm)
     end
-
-    # # handle the global tmpRF
-    # tmpRF.rnxName = name_r *"<"* tmpRF.rnxType *":"* name_c *">"* name_p
-    # if isdefined(tmpRF, :reactants) || isdefined(tmpRF, :products)
-    #   push!(rnxList, tmpRF)
-    # end
   end
 
   txtl_mRNA_set = Set(keys(txtlDict))
   # pre_txtl_protein_set = [replace(s, sys2user["MRNA"] => sys2user["PROTEIN"]) for s in txtl_mRNA_set]
   txtl_protein_set = Set([replace(s, sys2user["MRNA"] => sys2user["PROTEIN"]) for s in txtl_mRNA_set])
-
 
   return (rnxList, txtlDict, rnx_species_set, txtl_mRNA_set, txtl_protein_set)
 end
