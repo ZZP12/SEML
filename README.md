@@ -89,68 +89,61 @@ stoichiometry.dat  | Stoichiometric matrix of the model
 
 ## Reproduce Examples 
 ### reproduce directly 
-1. Download the *example* folder 
-2. Open a terminal window, `cd` to the *example* folder
-3. To run the FBA model (Fig. 5(b):  
-  - `cd` to *fauto* folder 
+1. Download the `example` folder 
+2. Open a terminal window, `cd` to the `example` folder
+3. To run the FBA model (Fig. 5(b)):  
+  - `cd` to `fauto` folder 
   - run `julia Solve.jl`
 3. To run the kinetic model (Fig. 7): 
-  - `cd` to *kiauto* folder 
+  - `cd` to `kiauto` folder 
   - run `julia Simulation.jl` 
   (Note that while running the kinetic model, some figure(s) will be generated and pause the program, close the unwanted figure windows to get the final color figures as Fig. 7.) 
 
 ### reproduce from scratch 
-1. Download the *example/testcase* folder to get two models in SEML 
-2. Open a terminal window and go into `julia` and run 
-```
-using SEML
-make_model(arg1[, OutPath=arg2, Host=arg3, Model=arg4, Lang=arg5])
-```
-3. To build the FBA model (Fig. 5(b):  
-  - run `make_model("path/fbacase.txt", Model="FBA", OutPath="outpath")`
-  - change the following parameters to corresponding values in the generated *DataDictionary.jl*
+1. Download the `example/testcase` folder to get two models in SEML 
+2. Open a terminal window, go into `julia` and run `using SEML`
+3. To build the FBA model (Fig. 5(b)):  
+  - run `make_model("PathTo/fbacase.txt", Model="FBA", OutPath="outpath1")`
+  - change the following parameters to corresponding values in the generated `DataDictionary.jl`
   ```
   default_bounds_array = [
-		0 100.0; # 1 1.0*m_A_e<uptake:>1.0*m_A_c
-		0 1.0; # 2 1.0*m_A_c<catalyze:>1.0*m_B_c
-		0 1.0; # 3 1.0*m_B_c<catalyze:>1.0*m_A_c
-		0 2.0; # 4 1.0*m_A_c<catalyze:>1.0*m_C_c
-    ...
+	...
+	0 1.0; # 2 1.0*m_A_c<catalyze:>1.0*m_B_c
+	0 1.0; # 3 1.0*m_B_c<catalyze:>1.0*m_A_c
+	0 2.0; # 4 1.0*m_A_c<catalyze:>1.0*m_C_c
+        ...
   ]
   ...
-	species_bounds_array = [
-		-10.0 10.0; # 1 m_A_e
-		-10.0 10.0; # 2 m_B_e
-		-10.0 10.0; # 3 m_C_e
-		 ...
-	]
+  species_bounds_array = [
+	-10.0 10.0; # 1 m_A_e
+	-10.0 10.0; # 2 m_B_e
+	-10.0 10.0; # 3 m_C_e
+	 ...
+  ]
   ```
-  - `cd` to *outpath* folder 
+  - `cd` to `outpath1` folder 
   - run `julia Solve.jl`
 
 4. To build the kinetic model (Fig. 7):
-  - run `make_model("path/kinetcase.dat", OutPath="outpath")`
-  - change the following parameters to corresponding values in the generated *DataDictionary.jl*
+  - run `make_model("PathTo/kinetcase.dat", OutPath="outpath2")`
+  - change the following parameters to corresponding values in the generated `DataDictionary.jl`
   ```
-	kcat_signaling = ones(7)  # kcat[#reaction]: reaction name
-	kcat_signaling[1] = 1.1e-3  # kcat: 1.0*m_A_e<uptake:1.0*p_TA_c>1.0*m_A_c
-	kcat_signaling[2] = 8e-4  # kcat: 1.0*m_B_c<secrete:1.0*p_TB_c>1.0*m_B_e
-	kcat_signaling[3] = 9e-4  # kcat: 1.0*m_C_c<secrete:1.0*p_TC_c>1.0*m_C_e
-	kcat_signaling[4] = 1.8e-4  # kcat: 1.0*m_A_c<catalyze:1.0*p_E1_c>1.0*m_B_c
-	kcat_signaling[5] = 1e-4  # kcat: 1.0*m_B_c<catalyze:1.0*p_E4_c>1.0*m_A_c
-	kcat_signaling[6] = 1e-4  # kcat: 1.0*m_A_c<catalyze:1.0*p_E2_c>1.0*m_C_c
-	kcat_signaling[7] = 1e-4  # kcat: 1.0*m_C_c<catalyze:1.0*p_E3_c>1.0*m_B_c
+  kcat_signaling = ones(7)  # kcat[#reaction]: reaction name
+  kcat_signaling[1] = 1.1e-3  # kcat: 1.0*m_A_e<uptake:1.0*p_TA_c>1.0*m_A_c
+  kcat_signaling[2] = 8e-4  # kcat: 1.0*m_B_c<secrete:1.0*p_TB_c>1.0*m_B_e
+  kcat_signaling[3] = 9e-4  # kcat: 1.0*m_C_c<secrete:1.0*p_TC_c>1.0*m_C_e
+  kcat_signaling[4] = 1.8e-4  # kcat: 1.0*m_A_c<catalyze:1.0*p_E1_c>1.0*m_B_c
   ...
-	W_value_dict = Dict{String, Float64}()
-	W_value_dict["W~m_B_c~mRNA_E4_c"] = 0.1
-	W_value_dict["W~m_A_c~mRNA_E2_c"] = 0.7
-	W_value_dict["W~m_C_c~mRNA_E3_c"] = 0.2
-	W_value_dict["W~m_A_e~mRNA_TA_c"] = 0.1
-	W_value_dict["W~m_B_c~mRNA_TB_c"] = 1.0
-	W_value_dict["W~m_A_c~mRNA_E1_c"] = 0.6
-	W_value_dict["W~m_C_c~mRNA_TC_c"] = 1.1
+  W_value_dict = Dict{String, Float64}()
+  W_value_dict["W~m_B_c~mRNA_E4_c"] = 0.1
+  W_value_dict["W~m_A_c~mRNA_E2_c"] = 0.7
+  W_value_dict["W~m_C_c~mRNA_E3_c"] = 0.2
+  W_value_dict["W~m_A_e~mRNA_TA_c"] = 0.1
+  ...
+  W_value_dict["W~m_A_c~mRNA_E1_c"] = 0.6
+  W_value_dict["W~m_C_c~mRNA_TC_c"] = 1.1
   ```
-  - `cd` to *outpath* folder
+  - `cd` to `outpath2` folder
   - run `julia Simulation.jl` 
   (Note that while running the kinetic model, some figure(s) will be generated and pause the program, close the unwanted figure windows to get the final color figures as Fig. 7.) 
   
