@@ -96,6 +96,17 @@ InputFile | SEML description of the model
 Solve.py | interface to run the simulation 
 stoichiometry.dat  | Stoichiometric matrix of the model  
 
+Kinetic model files: 
+
+File | Description  
+:--- | :---
+Balances.py | encodes mass balance of the model 
+DataDictionary.py | contains all data of the model, including initial condition, kinetic constants and Monod affinity constants, etc.   
+InputFile | SEML description of the model 
+Kinetics.py | calculates kinetic rates 
+SolveBalances.py | interface to run the simulation  
+stoichiometry.dat  | Stoichiometric matrix of the model   
+
 ### in Matlab
 
 ## Reproduce Examples 
